@@ -1,0 +1,7 @@
+{
+  "extends": "./tsconfig",
+  "include": ["src", "types", "demo.ts"],
+  "compilerOptions": {
+    "module": "commonjs"
+  }
+}

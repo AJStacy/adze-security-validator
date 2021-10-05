@@ -1,0 +1,11 @@
+test/
+src/
+docs/
+.husky
+.github
+.gitignore
+demo.ts
+tsconfig.json
+tsconfig.dev.json
+README.md
+yarn.lock

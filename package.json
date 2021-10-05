@@ -2,6 +2,19 @@
   "version": "0.1.0",
   "license": "MIT",
   "main": "dist/index.js",
+  "name": "@adze/security-validator",
+  "author": "Andrew Stacy <ajstacy@gmail.com>",
+  "module": "dist/adze-security-validator.esm.js",
+  "size-limit": [
+    {
+      "path": "dist/adze-security-validator.cjs.production.min.js",
+      "limit": "10 KB"
+    },
+    {
+      "path": "dist/adze-security-validator.esm.js",
+      "limit": "10 KB"
+    }
+  ],
   "typings": "dist/index.d.ts",
   "files": [
     "dist",
@@ -11,15 +24,40 @@
     "node": ">=10"
   },
   "scripts": {
-    "start": "tsdx watch",
+    "analyze": "size-limit --why",
     "build": "tsdx build",
-    "test": "tsdx test",
+    "commit": "cz",
+    "demo": "ts-node --project tsconfig.dev.json ./demo.ts",
+    "install-peers": "install-peers",
     "lint": "tsdx lint",
-    "prepare": "tsdx build",
+    "prepare": "install-peers -f && tsdx build && husky install",
     "size": "size-limit",
-    "analyze": "size-limit --why"
+    "start": "tsdx watch",
+    "test": "tsdx test"
   },
-  "peerDependencies": {},
+  "dependencies": {},
+  "devDependencies": {
+    "@size-limit/preset-small-lib": "^5.0.1",
+    "@types/node": "^16.10.2",
+    "commitizen": "^4.2.4",
+    "cz-conventional-changelog": "^3.3.0",
+    "husky": "^7.0.2",
+    "install-peers-cli": "^2.2.0",
+    "semantic-release": "^18.0.0",
+    "size-limit": "^5.0.1",
+    "ts-node": "^10.2.1",
+    "tsdx": "^0.14.1",
+    "tslib": "^2.3.0",
+    "typescript": "^4.3.5"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "peerDependencies": {
+    "adze": "^1.2.0"
+  },
   "husky": {
     "hooks": {
       "pre-commit": "tsdx lint"
@@ -30,26 +68,5 @@
     "semi": true,
     "singleQuote": true,
     "trailingComma": "es5"
-  },
-  "name": "adze-security-validator-1",
-  "author": "Andrew Stacy <ajstacy@gmail.com>",
-  "module": "dist/adze-security-validator-1.esm.js",
-  "size-limit": [
-    {
-      "path": "dist/adze-security-validator-1.cjs.production.min.js",
-      "limit": "10 KB"
-    },
-    {
-      "path": "dist/adze-security-validator-1.esm.js",
-      "limit": "10 KB"
-    }
-  ],
-  "devDependencies": {
-    "@size-limit/preset-small-lib": "^5.0.1",
-    "husky": "^7.0.1",
-    "size-limit": "^5.0.1",
-    "tsdx": "^0.14.1",
-    "tslib": "^2.3.0",
-    "typescript": "^4.3.5"
   }
 }

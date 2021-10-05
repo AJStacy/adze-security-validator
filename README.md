@@ -1,103 +1,56 @@
-# TSDX User Guide
+# Adze Security Validator
 
-Congrats! You just saved yourself hours of work by bootstrapping this project with TSDX. Let’s get you oriented with what’s here and how to use it.
+This project is a plugin for the Adze logging library to provide tools for ensuring proper context is applied to logs that are meant to record security events such as access events and authentication events.
 
-> This TSDX setup is meant for developing libraries (not apps!) that can be published to NPM. If you’re looking to build a Node app, you could use `ts-node-dev`, plain `ts-node`, or simple `tsc`.
+This library exposes some opinionated interfaces and a log listener factory for validating your security event logs.
 
-> If you’re new to TypeScript, checkout [this handy cheatsheet](https://devhints.io/typescript)
+## Installation
 
-## Commands
-
-TSDX scaffolds your new library inside `/src`.
-
-To run TSDX, use:
+### Yarn
 
 ```bash
-npm start # or yarn start
+yarn add @adze/security-validator
 ```
 
-This builds to `/dist` and runs the project in watch mode so any edits you save inside `src` causes a rebuild to `/dist`.
+### npm
 
-To do a one-off build, use `npm run build` or `yarn build`.
-
-To run tests, use `npm test` or `yarn test`.
-
-## Configuration
-
-Code quality is set up for you with `prettier`, `husky`, and `lint-staged`. Adjust the respective fields in `package.json` accordingly.
-
-### Jest
-
-Jest tests are set up to run with `npm test` or `yarn test`.
-
-### Bundle Analysis
-
-[`size-limit`](https://github.com/ai/size-limit) is set up to calculate the real cost of your library with `npm run size` and visualize the bundle with `npm run analyze`.
-
-#### Setup Files
-
-This is the folder structure we set up for you:
-
-```txt
-/src
-  index.tsx       # EDIT THIS
-/test
-  blah.test.tsx   # EDIT THIS
-.gitignore
-package.json
-README.md         # EDIT THIS
-tsconfig.json
+```bash
+npm install --save @adze/security-validator
 ```
 
-### Rollup
+## Explanation
 
-TSDX uses [Rollup](https://rollupjs.org) as a bundler and generates multiple rollup configs for various module formats and build settings. See [Optimizations](#optimizations) for details.
+When creating web systems it is important for security audits to log access and authentication events with the proper context attached. If a security breach occurred and our access and authentication logs either don't exist or are missing some of their context this can hinder the recovery process as well as tracking down how the attacker compromised the system in the first place.
 
-### TypeScript
+This library exposes an Adze log listener factory that wraps a log listener and validates that the context attached to it meets the minimum requirements. For TypeScript development environments this library also exposes some useful interfaces that can assist you with applying the proper context to your logs.
 
-`tsconfig.json` is set up to interpret `dom` and `esnext` types, as well as `react` for `jsx`. Adjust according to your needs.
+The library also exposes some type guard functions to validate if access event or authentication event meta is attached to your log context.
 
-## Continuous Integration
+## Security Event Context
 
-### GitHub Actions
+When logging a security event, such as an access event or an authentication event, proper context is needed to ensure that the most value is created by your log. Here are the properties required by the **Adze Security Validator** plugin and an explanation of each.
 
-Two actions are added by default:
+### Access Event Context
 
-- `main` which installs deps w/ cache, lints, tests, and builds on all pushes against a Node and OS matrix
-- `size` which comments cost comparison of your library on every pull request using [`size-limit`](https://github.com/ai/size-limit)
+- **userId** - Unique identifier of the user accessing the object.
+- **subject** - Service identifier or principal name that uniquely identifies the subject accessing the object.
+- **description** - Unique object identifier or complete description of the object AND the action requested.
+- **hostname** - The hostname of the entity accessing the object.
+- **context** - _Optional_ authorization context details.
 
-## Optimizations
+### Authentication Event Context
 
-Please see the main `tsdx` [optimizations docs](https://github.com/palmerhq/tsdx#optimizations). In particular, know that you can take advantage of development-only optimizations:
+- **userId** - Unique identifier of the user accessing the object.
+- **mechanism** - The authentication mechanism used.
+- **subject** - Service identifier or principal name that uniquely identifies the subject accessing the object.
+- **description** - Unique object identifier or complete description of the object AND the action requested.
+- **hostname** - The hostname of the entity accessing the object.
 
-```js
-// ./types/index.d.ts
-declare var __DEV__: boolean;
+## Tutorials
 
-// inside your code...
-if (__DEV__) {
-  console.log('foo');
-}
-```
+- [TypeScript Tutorial](docs/typescript-tutorial.md)
+- [JavaScript Tutorial](docs/javascript-tutorial.md)
 
-You can also choose to install and use [invariant](https://github.com/palmerhq/tsdx#invariant) and [warning](https://github.com/palmerhq/tsdx#warning) functions.
+## API Documentation
 
-## Module Formats
-
-CJS, ESModules, and UMD module formats are supported.
-
-The appropriate paths are configured in `package.json` and `dist/index.js` accordingly. Please report if any issues are found.
-
-## Named Exports
-
-Per Palmer Group guidelines, [always use named exports.](https://github.com/palmerhq/typescript#exports) Code split inside your React app instead of your React library.
-
-## Including Styles
-
-There are many ways to ship styles, including with CSS-in-JS. TSDX has no opinion on this, configure how you like.
-
-For vanilla CSS, you can include it at the root directory and add it to the `files` section in your `package.json`, so that it can be imported separately by your users and run through their bundler's loader.
-
-## Publishing to NPM
-
-We recommend using [np](https://github.com/sindresorhus/np).
+- [API Documentation](docs/api-documentation.md)
