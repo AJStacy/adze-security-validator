@@ -23,6 +23,9 @@
   "engines": {
     "node": ">=12"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "analyze": "size-limit --why",
     "build": "tsdx build",
