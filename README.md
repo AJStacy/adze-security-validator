@@ -20,7 +20,7 @@ npm install --save @adze/security-validator
 
 ## Explanation
 
-When creating web systems it is important for security audits to log access and authentication events with the proper context attached. If a security breach occurred and our access and authentication logs either don't exist or are missing some of their context this can hinder the recovery process as well as tracking down how the attacker compromised the system in the first place.
+When creating web systems it is important for security audits to log access and authentication events with the proper context attached. If a security breach has occurred and our access and authentication logs either do not exist or are missing some of their context this can hinder the recovery process as well as tracking down how the attacker compromised the system in the first place.
 
 This library exposes an Adze log listener factory that wraps a log listener and validates that the context attached to it meets the minimum requirements. For TypeScript development environments this library also exposes some useful interfaces that can assist you with applying the proper context to your logs.
 
